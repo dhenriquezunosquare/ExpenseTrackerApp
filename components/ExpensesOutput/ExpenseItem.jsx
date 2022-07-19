@@ -4,7 +4,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 import { getFormattedDate } from '../../utils/date'
 
-export const ExpenseItem = ({ item }) => {
+export const ExpenseItem = ({ item={} }) => {
+    console.log(item);
     const navigation = useNavigation();
 
     const expensePressHandler = () => {
@@ -18,7 +19,7 @@ export const ExpenseItem = ({ item }) => {
             <View style={styles.container}>
                 <View>
                     <Text style={[styles.text, styles.descriptionText]} >{item.description}</Text>
-                    <Text style={styles.text}>{getFormattedDate(item.date)}</Text>
+                    <Text style={styles.text}>{getFormattedDate(new Date(item.date))}</Text>
                 </View>
                 <View style={styles.amountContainer}>
                     <Text style={styles.amount}>${item.amount.toFixed(2)}</Text>

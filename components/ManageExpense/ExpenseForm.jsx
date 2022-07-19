@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
 import { GlobalStyles } from '../../constants/styles';
+import { getFormattedDate } from '../../utils/date';
 import { CustomButton } from '../UI/CustomButton';
 import { CustomInput } from './CustomInput';
 
@@ -12,7 +13,7 @@ export const ExpenseForm = ({ onCancel, onSubmit, isEditing, selectedExpense }) 
 
     const [inputs, setInputs] = useState({
         amount: { value: selectedExpense ? selectedExpense.amount + "" : '', isValid: true },
-        date: { value: selectedExpense ? selectedExpense.date.toISOString().slice(0, 10) : '', isValid: true },
+        date: { value: selectedExpense ? getFormattedDate(new Date(selectedExpense.date)) : '', isValid: true },
         description: { value: selectedExpense ? selectedExpense.description : '', isValid: true },
     });
 
@@ -34,12 +35,10 @@ export const ExpenseForm = ({ onCancel, onSubmit, isEditing, selectedExpense }) 
             date: new Date(inputs.date.value),
             description: inputs.description.value,
         }
-        console.log(data.date.toString());
         const amountIsValid = !isNaN(data.amount) && data.amount > 0;
         const dateIsValid = data.date.toString() !== "Invalid Date";
         const descriptionIsValid = data.description.trim().length > 0;
 
-        console.log(dateIsValid)
 
         if (!amountIsValid || !descriptionIsValid || !dateIsValid) {
             return setInputs(prev => {
